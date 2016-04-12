@@ -1,26 +1,19 @@
+// Users = new Meteor.Collection('users');
+import { Template } from 'meteor/templating';
+import Users from '../collections/Users';
+import History from '../collections/History';
+import './main.html';
+
+window.Users = Users;
+
 Template.userDetails.helpers({
 	user: function() {
-		return {
-			total: 123,
-			goal: 251
-		};
+		return Users.findOne();
 	}
 });
 
 Template.history.helpers({
 	historyItem: function() {
-		return [{
-			date: '10/31/2013 5:00 AM',
-			value: 20
-		}, {
-			date: '10/31/2013 6:00 AM',
-			value: 30
-		}, {
-			date: '10/31/2013 7:00 AM',
-			value: 40
-		},{
-			date: '10/31/2013 8:00 AM',
-			value: 50
-		}];
+		return History.find({});
 	}
 });
