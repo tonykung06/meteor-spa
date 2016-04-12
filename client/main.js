@@ -1,16 +1,31 @@
-// Users = new Meteor.Collection('users');
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor'
-import Users from '../collections/Users';
+import ProteinData from '../collections/ProteinData';
 import History from '../collections/History';
 import './main.html';
 
-Meteor.subscribe('allUsers');
-Meteor.subscribe('allHistory');
+Meteor.subscribe('allProteinData', function() {
+	ProteinData.ready = true;
+});
+Meteor.subscribe('allHistory', function() {
+	History.ready = true;
+});
 
 Template.userDetails.helpers({
 	user: function() {
-		return Users.findOne();
+		var data = ProteinData.findOne({});
+
+		if (!data && ProteinData.ready) {
+			data = {
+				userId: Meteor.userId(),
+				total: 0,
+				goal: 200
+			};
+
+			ProteinData.insert(data);
+		}
+
+		return data;
 	}
 });
 
@@ -35,7 +50,7 @@ Template.userDetails.events({
 			return;
 		}
 
-		Users.update(this._id, {
+		ProteinData.update(this._id, {
 			$inc: {
 				total: amount
 			}
@@ -44,7 +59,7 @@ Template.userDetails.events({
 		History.insert({
 			value: amount,
 			date: new Date().toTimeString(),
-			userId: this._id
+			userId: this.userId
 		});
 	}
 });
