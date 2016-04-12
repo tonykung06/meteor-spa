@@ -3,3 +3,4 @@
 - `meteor list`
 - `meteor add <package>`
 - `meteor remove <package>`
+- `meteor remove autopublish`

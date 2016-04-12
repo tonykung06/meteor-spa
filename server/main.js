@@ -2,6 +2,14 @@ import { Meteor } from 'meteor/meteor';
 import Users from '../collections/Users';
 import History from '../collections/History';
 
+Meteor.publish('allUsers', function() {
+  return Users.find({});
+});
+
+Meteor.publish('allHistory', function() {
+  return History.find({});
+});
+
 Meteor.startup(() => {
   // code to run on server at startup
   
