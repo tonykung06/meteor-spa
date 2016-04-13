@@ -4,6 +4,7 @@ import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
 import ProteinData from '../collections/ProteinData';
 import History from '../collections/History';
+import injectMethods from '../methods';
 import './main.html';
 
 Meteor.subscribe('allProteinData', function() {
@@ -20,6 +21,8 @@ Tracker.autorun(function () {
   	console.log("User logged out");
   }
 });
+
+injectMethods();
 
 Template.userDetails.helpers({
 	user: function() {
@@ -63,16 +66,10 @@ Template.userDetails.events({
 			return;
 		}
 
-		ProteinData.update(this._id, {
-			$inc: {
-				total: amount
+		Meteor.call('addProtein', amount, (err, id) => {
+			if (err) {
+				return alert(err.reason);
 			}
-		});
-
-		History.insert({
-			value: amount,
-			date: new Date().toTimeString(),
-			userId: this.userId
 		});
 
 		Session.set('lastAmount', amount);

@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import ProteinData from '../collections/ProteinData';
 import History from '../collections/History';
+import injectMethods from '../methods';
 
 Meteor.publish('allProteinData', function() {
   return ProteinData.find({
@@ -21,6 +22,7 @@ Meteor.publish('allHistory', function() {
 
 Meteor.startup(() => {
   // code to run on server at startup
+  injectMethods();
   
   //seed some data
   // if (ProteinData.find({}).count() === 0) {
