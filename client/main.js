@@ -1,5 +1,7 @@
 import { Template } from 'meteor/templating';
-import { Meteor } from 'meteor/meteor'
+import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
+import { Tracker } from 'meteor/tracker';
 import ProteinData from '../collections/ProteinData';
 import History from '../collections/History';
 import './main.html';
@@ -9,6 +11,14 @@ Meteor.subscribe('allProteinData', function() {
 });
 Meteor.subscribe('allHistory', function() {
 	History.ready = true;
+});
+
+Tracker.autorun(function () {
+  if (Meteor.user()) {
+  	console.log('User logged in:', Meteor.user().profile.name);
+  } else {
+  	console.log("User logged out");
+  }
 });
 
 Template.userDetails.helpers({
@@ -26,6 +36,9 @@ Template.userDetails.helpers({
 		}
 
 		return data;
+	},
+	lastAmount: function() {
+		return Session.get('lastAmount');
 	}
 });
 
@@ -61,5 +74,7 @@ Template.userDetails.events({
 			date: new Date().toTimeString(),
 			userId: this.userId
 		});
+
+		Session.set('lastAmount', amount);
 	}
 });
