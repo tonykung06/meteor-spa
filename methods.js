@@ -2,6 +2,26 @@ import {Meteor} from 'meteor/meteor';
 import ProteinData from './collections/ProteinData';
 import History from './collections/History';
 
+// ProteinData.deny({
+// 	update: function(userId, data) {
+// 		if (data.total < 0) {
+// 			return true;
+// 		}
+
+// 		return false;
+// 	}
+// });
+
+ProteinData.allow({
+	update: function(userId, data) {
+		if (data.total >= 0 ) {
+			return true;
+		}
+
+		return false;
+	}
+});
+
 export default () => {
 	Meteor.methods({
 		addProtein(amount) {

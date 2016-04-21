@@ -73,5 +73,14 @@ Template.userDetails.events({
 		});
 
 		Session.set('lastAmount', amount);
+	},
+	'click #quickSubtract': function(e) {
+		e.preventDefault();
+
+		ProteinData.update(this._id, {
+			$inc: {
+				total: -100
+			}
+		});
 	}
 });
