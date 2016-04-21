@@ -13,6 +13,13 @@ import History from './collections/History';
 // });
 
 ProteinData.allow({
+	insert: function(userId, data) {
+		if (data.userId === userId) {
+			return true;
+		}
+
+		return false;
+	},
 	update: function(userId, data) {
 		if (data.total >= 0 ) {
 			return true;
@@ -56,7 +63,7 @@ export default () => {
 						date: new Date().toTimeString(),
 						userId: this.userId
 					});
-				}, 3000);
+				}, 2000);
 			}
 		}
 	});
