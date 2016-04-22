@@ -4,10 +4,6 @@
 
 <body>
   <h1>Protein Tracker!</h1>{{> loginButtons}}
-  {{#if currentUser}}
-    {{> userDetails}}
-    {{> history}}
-  {{/if}}
 </body>
 
 <template name="userDetails">
@@ -28,5 +24,18 @@
   {{#each historyItem}}
     <p>{{date}} - {{value}}</p>
   {{/each}}
+</template>
+
+<template name="home">
+  {{#if currentUser}}
+    {{> userDetails}}
+    {{> history}}
+  {{/if}}
+  <a href="{{pathFor route='settings'}}">Go to Settings</a>
+</template>
+
+<template name="settings">
+  <h2>Settings:</h2>
+  <a href="{{pathFor route='home'}}">Back</a>
 </template>
 
